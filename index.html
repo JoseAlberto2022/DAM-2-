@@ -1,42 +1,25 @@
 <!doctype html>
 <html>
     <head>
+        <title>videojuego</title>
+        <meta charset= "UTTF8">
+        <link rel="Stylesheet" href="css/estilo.css">
     </head>
     <body>
+        <div id="contenedor">
+            <div id="fondo"></div>
+            <canvas id="lienzo" width=512px height=512px></canvas>
+        </div>
+        <script src="lib/jquery-3.7.1.min.js"></script>
+        <script src="js/Personaje1.js"></script>
+        <script src="js/funciones.js"></script>
+        <script src="js/condicionesiniciales.js"></script>
+        <script src="js/inicio1.js"></script>
+        <script src="js/bucle1.js"></script>
+        
         <script>
-            const tiempoInicio = Date.now()
-            // Calculo1
-            console.log("Vamos con el calculo 1")
-            var numero = 0.00000423343;
-            var iteraciones = 1000000000;
-            for(var i = 0;i<iteraciones;i++){
-                numero = numero*1.00000000005435
-            }
-            // Calculo2
-            console.log("Vamos con el calculo 2")
-            var numero = 0.00000423343;
-            var iteraciones = 1000000000;
-            for(var i = 0;i<iteraciones;i++){
-                numero = numero*1.00000000005435
-            }
-            // Calculo3
-            console.log("Vamos con el calculo 3")
-            var numero = 0.00000423343;
-            var iteraciones = 1000000000;
-            for(var i = 0;i<iteraciones;i++){
-                numero = numero*1.00000000005435
-            }
-            // Calculo4
-            console.log("Vamos con el calculo 4")
-            var numero = 0.00000423343;
-            var iteraciones = 1000000000;
-            for(var i = 0;i<iteraciones;i++){
-                numero = numero*1.00000000005435
-            }
-            const tiempoFinal = Date.now()
+            inicio(); 
             
-            
-            console.log("El tiempo requerido para calcular este programa ha sido de "+(tiempoFinal-tiempoInicio))
         </script>
     </body>
 </html>
