@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <style>
+            body{text-align: center;}
+        </style>
+    </head>
+    <body>
+        <canvas id="lienzo" width=2048 height=2048></canvas>
+        <script>
+            var contexto = document.getElementById("lienzo").getContext("2d")  //Cargamos el contexto de la imagen en una variable 
+            
+            var foto = new Image();                                            //Creamos un nuevo objeto de tipo imagen 
+            foto.src = "josevicente.jpg"                                       //Le indicamos cuál es el archivo informático al que corresponde esa imagen 
+            
+            setTimeout(function(){                                             //Ejecuta una función con cierto retraso para darle tiempo al programa a cargar la imagen 
+                const tiempoInicio = Date.now()                                //Calculo el tiempo de inicio y lo pongo en una variable 
+                contexto.drawImage(foto,0,0)                                   //Dibujo la imagen en el lienzo  
+                
+                var pixeles = contexto.getImageData(0,0,2048,2048)             //Atrapo todos los datos de la imagen en una matriz 
+               
+                for(var i=0;i<pixeles.data.length;i+=4){                       //Recorro esa imagen cada cuatro bloques porque cuatro piezas de contenido representan un Píxel   
+                    pixeles.data[i] = 255-pixeles.data[i];                     //Invierto el canal rojo de la imagen 
+                    pixeles.data[i+1] = 255-pixeles.data[i+1];                 //Invierto el canal verde de la imagen 
+                    pixeles.data[i+2] = 255-pixeles.data[i+2];                 //Invierto el canal azul de la imagen 
+                }
+                
+                contexto.putImageData(pixeles,0,0)                             //imagen de vuelta dentro del lienzo
+                const tiempoFinal = Date.now()                                 //Calculo el tiempo de finalización y lo pongo en otra variable 
+                console.log("El tiempo requerido para calcular este programa ha sido de "+(tiempoFinal-tiempoInicio));//Muestro por pantalla la diferencia entre los tiempos de inicio y los tiempos de finalización 
+            },2000)
+        </script>
+        
+    </body>
+</html>

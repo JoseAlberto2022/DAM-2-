@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <script>
+            
+            var edad = 43;
+            var nombre = "Jose Vicente"
+            var json = {edad:45,nombre:"Jose Vicente"}
+            
+            var numeroDeNucleos = navigator.hardwareConcurrency;
+            console.log("El ordenador en el que estas ahora mismo tiene "+numeroDeNucleos+" nucleos")
+            
+            var trabajador = new Array();
+            for(var i = 0;i<numeroDeNucleos;i++){
+                trabajador[i] = new Worker("tarea5.js")
+                trabajador[i].postMessage(json);
+                trabajador[i].onmessage = function(datos){
+                    console.log(datos.data)
+                }
+            }
+            
+        </script>
+    </body>
+</html>
