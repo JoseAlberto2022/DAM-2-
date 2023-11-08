@@ -13,7 +13,7 @@
             </tr>
             <tr height=20px; id="barranombredocumento">
                 <td>
-                    <input type="text" id="documentname" placeholder="Nombre Del Documento">
+                    <input type="text" id="documentname" placeholder="Nombre Del Documento" value='<?php echo explode(".",$_GET['file'])[0] ?>'>
                 </td>
             </tr>
              <tr height=50px; id="herramientas">
@@ -50,9 +50,12 @@
             </tr>
              <tr>
                 <td id="fondopagina">
-                    <div id="pagina" contenteditable="true"></div>
+                    <div id="pagina" contenteditable="true">
+                        <?php include "../vault/users/josevicente/".$_GET['file'] ?>
+                    </div>
                 </td>
             </tr>
         </table>
     </body>
 </html>
+
