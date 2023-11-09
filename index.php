@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html>
     <head>
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -19,7 +20,7 @@
              <tr height=50px; id="herramientas">
                 <td>
                     
-                    <button id="guardar">Guardar</button>
+                    <button id="guardar"><img src="../img/bootstrap-icons-1.11.1/save.svg" class="icon"></button>
                     <select id="tipotexto">
                         <option value="p">Texto de parrafo</option>
                         <option value="h1">Encabezado 1</option>
@@ -42,16 +43,22 @@
                         <option value="Brush Script MT">Brush Script MT</option>
                     </select>
                     <input type="number" id="fontsize" value="10">
-                    <button id="bold">B</button>
-                    <button id="cursive">C</button>
-                    <button id="underline">U</button>
+                    <button id="bold"><img src="../img/bootstrap-icons-1.11.1/type-bold.svg" class="icon"></button>
+                    <button id="cursive"><img src="../img/bootstrap-icons-1.11.1/type-italic.svg" class="icon"></button>
+                    <button id="underline"><img src="../img/bootstrap-icons-1.11.1/type-underline.svg" class="icon"></button>
                     <input type="color" id="fontcolor">
+                    <button id="orderedlist"><img src="../img/bootstrap-icons-1.11.1/list-ol.svg" class="icon"></button>
+                    <button id="unorderedlist"><img src="../img/bootstrap-icons-1.11.1/list-ul.svg" class="icon"></button>
+                    <button id="textoizquierda"><img src="../img/bootstrap-icons-1.11.1/text-left.svg" class="icon"></button>
+                    <button id="textoderecha"><img src="../img/bootstrap-icons-1.11.1/text-right.svg" class="icon"></button>
+                    <button id="textocentro"><img src="../img/bootstrap-icons-1.11.1/text-center.svg" class="icon"></button>
+                    <button id="alignjustify"><img src="../img/bootstrap-icons-1.11.1/justify-left.svg" class="icon"></button>
                 </td>
             </tr>
              <tr>
                 <td id="fondopagina">
                     <div id="pagina" contenteditable="true">
-                        <?php include "../vault/users/josevicente/".$_GET['file'] ?>
+                        <?php include "../vault/users/".$_SESSION['user']."/".$_GET['file'] ?>
                     </div>
                 </td>
             </tr>

@@ -1,5 +1,5 @@
 <?php
-$path = 'vault/users/josevicente/';
+$path = 'vault/users/'.$_GET['user']."/";
 if ($handle = opendir($path)) {
 
     while (false !== ($entry = readdir($handle))) {
