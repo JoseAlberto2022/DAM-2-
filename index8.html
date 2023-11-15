@@ -9,6 +9,11 @@
             var personajes = new Array();                                  
             var contexto = document.getElementById("lienzo").getContext("2d")// Especifico un contexto en el cual dentro voy a dibujar
             var temporizador;                                                // Creo un nuevo temporizador vacio
+            var comida = new Array();
+            var numerocomida = 20;
+            for(var i = 0;i<numerocomida;i++){
+                comida[i] = {x:Math.random()*512,y:Math.random()*512}
+            }
             for(var i = 0;i<numerotrabajadores;i++){                        // Para cada uno de los trabajadores
                 trabajadores[i] = new Worker("tarea8.js");                   // Dentro de la coleccion los asigno como un trabajador
                 trabajadores[i].postMessage({id:i})
@@ -29,10 +34,17 @@
             function bucle(){                                                // Define la funcion bucle
                 contexto.fillStyle = "rgba(255,255,255,0.1)"
                 contexto.fillRect(0,0,512,512)
+                
+                for(var i = 0;i<numerocomida;i++){
+                    contexto.fillStyle = "red"
+                    contexto.beginPath();
+                    contexto.arc(comida[i].x,comida[i].y,5,0,Math.PI*2,true);
+                    contexto.fill();
+                }
                 for(var i = 0;i<numerotrabajadores;i++){
                     contexto.fillStyle = "rgb("+personajes[i].r+","+personajes[i].g+","+personajes[i].b+")"
                     contexto.fillRect(personajes[i].x,personajes[i].y,personajes[i].tam,personajes[i].tam)
-                    trabajadores[i].postMessage({id:i,otros:personajes})
+                    trabajadores[i].postMessage({id:i,otros:personajes,comida:comida})
                 }
                 
                 clearTimeout(temporizador)                                   // Elimino el temporizador
