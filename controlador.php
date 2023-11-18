@@ -1,4 +1,3 @@
-
 <?php
 class Supercontrolador{
     function formulario($tabla){
@@ -10,15 +9,18 @@ class Supercontrolador{
         $consulta = "SHOW FULL COLUMNS FROM ".$tabla;
         $resultado = $mysqli->query($consulta);
         while ($fila = $resultado->fetch_assoc()) {
-
-            if($fila["Key"] == NULL && $fila["Field"] != "epoch"){
+           if(json_decode($fila["Comment"])->visible == 'true'){
+            preg_match('#\((.*?)\)#', $fila["Type"], $match);
             echo '
                 <div class = "campo">
-                
-                    <p>'.$fila["Comment"].'</p>
+                    <h3>'.json_decode($fila["Comment"])->titulo.'</h3>
+                    <p>'.json_decode($fila["Comment"])->descripcion.' - Caracteres minimo '.json_decode($fila["Comment"])->min.' maximo '.$match[1].'</p>
                     ';
                     if($fila["Null"] == "NO"){echo "<p>* este campo es requerido</p>";}
+               
                     echo '
+                    <div class="contienecampo">
+                    <table><tr><td width="80%">
                     <input type="';
                     if($fila["Field"] == 'email'){
                         echo "email";
@@ -32,12 +34,18 @@ class Supercontrolador{
                     echo '" name="'.$fila["Field"].'" id="'.$fila["Field"].'"
                         ';
                         if($fila["Null"] == "NO"){echo " required";}
-                        if($fila["Field"] == "epoch"){echo " disabled";}
+                        if(json_decode($fila["Comment"])->deshabilitado == "true"){echo " disabled";}
                         preg_match('#\((.*?)\)#', $fila["Type"], $match);
                         echo'
                         maxlength = "'.$match[1].'";
+                        minlength = "'.json_decode($fila["Comment"])->min.'";
+                        placeholder = "'.json_decode($fila["Comment"])->placeholder.'"
                     >
-                </div>
+                    </td><td width="80%">
+                    <div class="tipocampo"><i class="'.json_decode($fila["Comment"])->icono.'"></i></div>
+                    </td></tr></table>
+                    </div>
+                    <div class="clearfix"></div>
             ';
               }
             }
@@ -45,7 +53,25 @@ class Supercontrolador{
         $mysqli->close();
         }
     function procesaformulario(){
-        //echo "Si estas viendo esto";
+        //Vamos a  analizar que es lo que viene antes de meterlo
+        
+        foreach($_REQUEST as $nombre_campo => $valor){
+            //echo "el campo es: ".$nombre_campo." y el valor es ".$valor
+            if(preg_match('~\b(delete|drop|truncate)\b~i',$nombre_campo)){
+                $volcado = implode(",", $_REQUEST).",".$_SERVER['REMOTE_ADDR'].",".$_SERVER['HTTP_USER_AGENT']."\n";
+                $myfile = fopen("volcado.txt", "a");
+                fwrite($myfile, $volcado);
+                die("ejecucion detenida");
+            }
+            if(preg_match('~\b(delete|drop|truncate)\b~i', $valor)){
+                $volcado = implode(",", $_REQUEST).",".$_SERVER['REMOTE_ADDR'].",".$_SERVER['HTTP_USER_AGENT']."\n";
+                $myfile = fopen("volcado.txt", "a");
+                fwrite($myfile, $volcado);
+                die("ejecucion detenida");
+            }
+        }
+        
+        
         include "config.php";
         $listadocolumnas = "";
         $listadovalores = "";
