@@ -1,84 +1,57 @@
 <!doctype html>
 <html>
     <head>
-        <style>
-            html,body{padding:0px;margin:0px;overflow:hidden;}
-            canvas{
-                border:1px solid grey;
-                    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
-                    image-rendering: -moz-crisp-edges;          /* Firefox                        */
-                    image-rendering: -o-crisp-edges;            /* Opera                          */
-                    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
-                    image-rendering: pixelated;                 /* Universal support since 2021   */
-                    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
-                    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
-
-                }
-        </style>
+        <title>videojuego</title>
+        <meta charset= "UTTF8">
+        <link rel="Stylesheet" href="css/estilo.css">
     </head>
     <body>
-        <canvas width=512px height=512px id="lienzo"></canvas>
+        <div id="contenedor">
+            <div id="fondo"></div>
+            <canvas id="lienzo" width=512px height=512px></canvas>
+        </div>
+        <div id="pantallainicial">
+            <h1>Tius muertos</h1>
+            <h2>Subtitulo del juego</h2>
+            
+            <h3 id="botonjugar">Jugar</h3>
+            <h3 id="botoncreditos">Creditos</h3>
+            <h3 id="botoncreditos">Instrucciones</h3>
+        </div>
+        
+        <div id="pantallainicialmedio" style="display:none;">
+            <h1>Titulo del juego</h1>
+            <h2>Subtitulo del juego</h2>
+            
+            <h3 id="botoncontinuar">Continuar</h3>
+            <h3 id="botoncreditos">Creditos</h3>
+            <h3 id="botoncreditos">Instrucciones</h3>
+        </div>
+        <div id="pantallanivel" style="display:none;">
+            <h1>Estas en el nivel</h1>
+            <h2 id="dimenivel"></h2>
+            
+        </div>
+        <script src="lib/jquery-3.7.1.min.js"></script>
+        <script src="js/Personaje1.js"></script>
+        <script src="js/funciones.js"></script>
+        <script src="js/condicionesiniciales.js"></script>
+        <script src="js/inicio1.js"></script>
+        <script src="js/bucle1.js"></script>
+        
         <script>
-            var anchura = window.innerWidth;
-            var altura = window.innerHeight;
-            document.getElementById("lienzo").width = anchura;
-            document.getElementById("lienzo").height = altura;
+            $("#botonjugar").click(function(){
+                $("#pantallainicial").fadeOut("slow");
+                inicio();
+                pausa = false;
+            })
+            $("#botoncontinuar").click(function(){
+                $("#pantallainicialmedio").fadeOut("slow");
+                $("#contenedor").removeClass("difuminado");
+                pausa = false;
+                bucle();
+            }) 
             
-            var contexto = document.getElementById("lienzo").getContext("2d")
-            //carga inicial de pixeles negros
-            contexto.fillStyle = "rgb(255,255,255)"
-            contexto.fillRect(0,0,anchura,altura)
-            var datoscanvas = contexto.getImageData(0,0,anchura,altura)
-            for(var i = 0;i<datoscanvas.data.length;i+=4){
-                if(Math.random() < 0.2){
-                    datoscanvas.data[i] = 0;
-                    datoscanvas.data[i+1] = 0;
-                    datoscanvas.data[i+2] = 0;
-                }else{
-                    datoscanvas.data[i] = 255;
-                    datoscanvas.data[i+2] = 255;
-                    datoscanvas.data[i+3] = 255;
-                }
-            }
-            contexto.putImageData(datoscanvas,0,0)
-            
-            var temporizador = setTimeout("bucle()",1000);
-            function bucle(){
-                //Primero cojo la info que tengo
-                datoscanvas = contexto.getImageData(0,0,anchura,altura);
-                datoscanvastemp = contexto.getImageData(0,0,anchura,altura);
-                for(var i = 0;i<datoscanvastemp.data.length;i+=4){
-                    var numerovivas = 0;
-                    if(datoscanvastemp.data[i-anchura*4-4] == 0){numerovivas ++;}
-                    if(datoscanvastemp.data[i-anchura*4] == 0){numerovivas ++;}
-                    if(datoscanvastemp.data[i-anchura*4+4] == 0){numerovivas ++;}
-                    if(datoscanvastemp.data[i-4] == 0){numerovivas ++;}
-                    if(datoscanvastemp.data[i+4] == 0){numerovivas ++;}
-                    if(datoscanvastemp.data[i+anchura*4-4] == 0){numerovivas ++;}
-                    if(datoscanvastemp.data[i+anchura*4] == 0){numerovivas ++;}
-                    if(datoscanvastemp.data[i+anchura*4+4] == 0){numerovivas ++;}
-                    if(datoscanvastemp.data[i]== 255 && numerovivas == 3){
-                        datoscanvas.data[i] = 0;
-                        datoscanvas.data[i+1] = 0;
-                        datoscanvas.data[i+2] = 0;
-                    }
-                    if(datoscanvastemp.data[i] == 0){
-                        if((numerovivas == 2 || numerovivas == 3)){
-                            datoscanvas.data[i] = 0;
-                            datoscanvas.data[i+1] = 0;
-                            datoscanvas.data[i+2] = 0;
-                        }else{
-                            datoscanvas.data[i] = 255;
-                            datoscanvas.data[i+1] = 255;
-                            datoscanvas.data[i+2] = 255;
-                        }
-                    }
-                }
-                contexto.putImageData(datoscanvas,0,0)
-                clearTimeout(temporizador);
-                temporizador = setTimeout("bucle()",100);
-            }
         </script>
     </body>
-
 </html>

@@ -17,11 +17,10 @@ class Personaje{
     mueve(){
         /* El personaje va envejeciendo*/
         this.tiemponacimiento += 1;
-        /*Esto actualiza la posición del personaje*/
-        this.x -= Math.cos(this.direccion);
-        this.y -= Math.sin(this.direccion);
        
-        //cambiadireccion();
+       if(this.tiemponacimiento % 100 == 0){
+            this.cambiadireccion();
+       }
         
         /*Actualizamos el ángulo de radianes según la nomenclatura de ángulos de cero a 3 */
         if(this.direccionisometrica == 0){
@@ -33,6 +32,12 @@ class Personaje{
         }else if(this.direccionisometrica == 3){
             this.direccion = Math.PI*1.5;
         }
+        
+        /*Esto actualiza la posición del personaje*/
+        this.x -= Math.cos(this.direccion);
+        this.y -= Math.sin(this.direccion);
+        
+        
         /*Va cambiando de Estado de animación para caminar pues */
         this.estadoanim++;
         if(this.estadoanim > 7){this.estadoanim = 0;}
@@ -43,7 +48,20 @@ class Personaje{
         /*Calcula las colisiones */
         this.colisiona();
     }
-    cambiadirecion(){
+    
+    persigue(){
+        this.estadoanim++;
+        if(this.estadoanim > 7){this.estadoanim = 0;}
+        
+        this.x -= (this.x - posx)/100
+        this.y -= (this.y - posy)/100
+
+        
+        this.x -= Math.cos(this.direccion);
+        this.y -= Math.sin(this.direccion);
+    }
+    
+    cambiadireccion(){
          /*Aqui le imdicamos al programa que el personaje cambia de direccion cada 100 unidades de vida*/
         if(this.tiemponacimiento % 100 == 0){ this.direccionisometrica = Math.floor(Math.random()*4);}
     }
@@ -55,7 +73,12 @@ class Personaje{
         || 
         this.y > terrenoy2 
         || this.y < terrenoy1
-        ){this.direccion += Math.PI;}
+        ){
+            if(this.direccionisometrica == 1){this.direccionisometrica = 3;}
+            else if(this.direccionisometrica == 3){this.direccionisometrica = 1;}
+            else if(this.direccionisometrica == 0){this.direccionisometrica = 2;}
+            else if(this.direccionisometrica == 2){this.direccionisometrica = 0;}
+        }
     }
     pierdeenergia(){
         this.energia -= 1;

@@ -22,6 +22,16 @@ function inicio(){
         if(e.key == "d"){direccion = 0;}
     })
     
+    //Volver al menu principal
+    $(document).keydown(function(e) {
+    // ESCAPE key pressed
+    if (e.keyCode == 27) {
+        pausa = true;
+        $("#pantallainicialmedio").fadeIn("slow");
+        $("#contenedor").addClass("difuminado");
+    }
+    });
+    
     /*Cuando la ventana se reescala calculamos de nuevo las proporciones de los contenedores en base a la ventana */
     $(window).resize(function(){
         var anchuranavegador = window.innerWidth;
