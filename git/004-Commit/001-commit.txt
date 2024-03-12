@@ -1,0 +1,5 @@
+git commit -m "Primera version de mi juego"
+
+git commit -m "Comrobacion del ganador"
+
+git push origin ganador

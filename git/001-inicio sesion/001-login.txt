@@ -1,0 +1,3 @@
+git config --global user.name = "JoseAlberto2022"
+
+git config --global user.email = "josealberto.maga.es@gmail.com"
